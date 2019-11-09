@@ -1,0 +1,48 @@
+.hidden {
+  display: none;
+}
+
+header {
+  margin-bottom: 80px;
+}
+
+img {
+  width: 90%;
+  margin: 5%;
+}
+
+.card {
+  display:inline-block;
+  margin-right: 15px;
+  margin-top: 15px;
+  padding: 0px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.price {
+  font-style: italic;
+  font-size: small;
+  margin: 0px;
+}
+
+.desc {
+  font-size: small;
+  margin: 0px;
+}
+
+.btn {
+  width: 95%;
+  margin: 10px auto;
+}
+
+table {
+  width:100%;
+}
+
+ .border-bot {
+   border: 1px solid black;
+
+ }
