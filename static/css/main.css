@@ -40,9 +40,11 @@ img {
 
 table {
   width:100%;
+  border-style:hidden;
+  border-bottom-style:solid;
 }
 
  .border-bot {
-   border: 1px solid black;
+   border-bottom: 1px solid grey;
 
  }

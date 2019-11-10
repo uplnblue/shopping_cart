@@ -7,7 +7,8 @@
     if ($(this).attr('id') !== 'total') {
       $('.nav-item').removeClass('active');
       $(this).parent().addClass('active');
-      // TODO: call render function
+      // show the right "page"
+      showPage($(this).attr('href'));
     } else {
       // don't do anything if someone clicks on the total "nav-item"
       e.preventDefault();
@@ -67,6 +68,7 @@
         temp.subtotal = temp.price.toFixed(2);
         cart.push(temp);
       }
+      displayCart();
     });
   }
   // executed only once on page load
@@ -80,15 +82,61 @@
     }
   }
 
-  // set up cart...
-$.get('../../components/cart.html', function(response) {
-  $('.cart').html(response);
-  console.log($('tr, td, th'));
-  // TODO this isn't working how I want
-  $('tr, td, th, thead').addClass('border-bot');
+  // set up cart... executed once when the page loads
+  $.get('../../components/cart.html', function(response) {
+    $('.cart').html(response);
+    // TODO: ??
+    $('th').addClass('border-bot');
+  });
 
-});
+  function displayCart() {
+    // init total
+    let total = 0;
+    // reset cart to nothing
+    $('tbody').html('');
+    // make a table row for each item
+    for (let item in cart) {
+      // quantity, name, subtotal, rem-from-cart
+      let s_html = `<tr><td>${cart[item].quantity}</td>`;
+      s_html += `<td>${cart[item].name}</td>`;
+      s_html += `<td>${cart[item].subtotal}</td>`;
+      s_html += `<td><button id=${cart[item].id} class="btn btn-danger rem-from-cart">X</button></td></tr>`
 
+      $('tbody').append(s_html);
+      // increment total
+      total += parseFloat(cart[item].subtotal,10);
+    }
+      // bottom borders...
+      $('td').addClass('border-bot');
+      // update table foot and nav bar display of Total Price
+      $('.total').html(`Total Price: $${total.toFixed(2)}`);
+      // add on=click functions for the rem-from-carts
+      // they decrement quantity of that item by 1 and call displayCart
+      $('.rem-from-cart').click(function(e) {
+        let btn_id = $(this).attr('id');
+        for (let i in cart) {
+          if (cart[i].id == btn_id) {
+            cart[i].quantity--;
+            if (cart[i].quantity <= 0) {
+              // remove that item because none left
+              cart.splice(i,1);
+            }
+          };
+        };
+        displayCart();
+      });
+  }
 
-
+  function showPage(url) {
+    if (url == '#checkout') {
+      // show big cart
+      console.log($('#browse'));
+      $('#browse').addClass('hidden');
+      $('#checkout').removeClass('hidden');
+    } else if (url == '#browse') {
+      // show products + small cart
+      $('#checkout').addClass('hidden');
+      $('#browse').removeClass('hidden')
+    }
+  }
 })();
