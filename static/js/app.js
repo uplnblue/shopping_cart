@@ -117,6 +117,7 @@
         for (let i in cart) {
           if (cart[i].id == btn_id) {
             cart[i].quantity--;
+            cart[i].subtotal = (cart[i].quantity * cart[i].price).toFixed(2);
             if (cart[i].quantity <= 0) {
               // remove that item because none left
               cart.splice(i,1);
